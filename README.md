@@ -1,11 +1,11 @@
-# Big Brackets
+# Multiline Brackets
 
-This is a small Uiua module for generating strings wrapped in big brackets.
+This is a small Uiua module for generating strings wrapped in multiline brackets.
 
 ## Installation
 You can import this module using:
 ```ua
-M ~ "git: github.com/data-corruptd/big-brackets"
+M ~ "git: github.com/data-corruptd/multiline-brackets"
 ```
 
 ## Overview

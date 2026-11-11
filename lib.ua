@@ -22,9 +22,6 @@ RoundBrackets ← (
     ⊂₃
   )
 )
-# Same as `RoundBrackets`, but joins the lines
-# ? Lines
-RoundBrackets′ ← /$"_\n_" RoundBrackets
 
 # ```
 # SquareBrackets {"first" "second" "third"}

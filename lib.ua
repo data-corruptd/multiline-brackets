@@ -1,69 +1,71 @@
 # ```
-# Round {"first" "second" "third"}
-# # or
-# Parens {"first" "second" "third"}
-# # ⎛first ⎞\n
-# # ⎜second⎟\n
-# # ⎝third ⎠
+# RoundBrackets {"first" "second" "third"}
+# ## ╭─
+# ## ╷ "⎛first ⎞"
+# ##   "⎜second⎟"
+# ##   "⎝third ⎠"
+# ##             ╯
 # ```
 # ? Lines
-Round ← (
+RoundBrackets ← (
   ⬚@ ≡°□ # pad lines
   ⊸⧻
-  ⍣(⍩⋅"()" °0     # zero lines
-  | ⍩($"(_)"⊢) °1 # one line
-  |               # multiple lines 
+  ⍣(⍩⋅(¤"()") °0   # zero lines
+  | ⍩(¤$"(_)"⊢) °1 # one line
+  |                # multiple lines 
     ⋅⊃(
       ¤$"⎛_⎞"⊢
     | =₀⊸⧻ ↘₋₁↘₁
       ⨬≡$"⎜_⎟" ""
     | ¤$"⎝_⎠"⊣
     )
-    /$"_\n_"⊂₃
+    ⊂₃
   )
 )
+# Same as `RoundBrackets`, but joins the lines
+# ? Lines
+RoundBrackets′ ← /$"_\n_" RoundBrackets
 
 # ```
-# Square {"first" "second" "third"}
-# # or
-# Brackets {"first" "second" "third"}
-# # ⎡first ⎤\n
-# # ⎢second⎥\n
-# # ⎣third ⎦
+# SquareBrackets {"first" "second" "third"}
+# ## ╭─
+# ## ╷ "⎡first ⎤"
+# ##   "⎢second⎥"
+# ##   "⎣third ⎦"
+# ##              ╯
 # ```
 # ? Lines
-Square ← (
+SquareBrackets ← (
   ⬚@ ≡°□ # pad lines
 
-  ⍣(⍩⋅"[]" °0     # zero lines
-  | ⍩($"[_]"⊢) °1 # single line
+  ⍣(⍩⋅(¤"[]") °0   # zero lines
+  | ⍩(¤$"[_]"⊢) °1 # single line
   | ⋅⊃(
       ¤$"⎡_⎤"⊢
     | =₀⊸⧻ ↘₋₁↘₁
       ⨬≡$"⎢_⎥" ""
     | ¤$"⎣_⎦"⊣)
-    /$"_\n_"⊂₃
+    ⊂₃
   )⊸⧻
 )
 
 # ```
-# Curly {"first" "second" "third"}
-# # or
-# Braces {"first" "second" "third"}
-# # ⎧first ⎫\n
-# # ⎨second⎬\n
-# # ⎩third ⎭
+# CurlyBrackets {"first" "second" "third"}
+# ## ╭─
+# ## ╷ "⎧first ⎫"
+# ##   "⎨second⎬"
+# ##   "⎩third ⎭"
+# ##              ╯
 # ```
-# ? Curly
-Curly ← (
+# ? CurlyBrackets
+CurlyBrackets ← (
   ⬚@ ≡°□ # pad lines
 
-  ⍣(⍩⋅"{}" °0     # zero lines
-  | ⍩($"{_}"⊢) °1 # single line
-  | ⍩(            # two lines
-      ⊃($"⎰_⎱"⊢
-      | $"⎱_⎰"⊣)
-      $"_\n_"
+  ⍣(⍩⋅(¤"{}") °0   # zero lines
+  | ⍩(¤$"{_}"⊢) °1 # single line
+  | ⍩(             # two lines
+      ⊃[$"⎰_⎱"⊢
+      | $"⎱_⎰"⊣]
     ) °2
   | # 3+ lines
     ⋅⊃(
@@ -72,15 +74,15 @@ Curly ← (
       # insert middle segment
       ⍜⊡($"⎨_⎬"↘₋₁↘₁) -₁⌈÷₂⊸⧻
     | ¤$"⎩_⎭"⊣)
-    /$"_\n_"⊂₃
+    ⊂₃
   )⊸⧻
 )
 
 # Aliases
 
-Parens   ← Round
-Brackets ← Square
-Braces   ← Curly
+Parens   ← RoundBrackets
+Brackets ← SquareBrackets
+Braces   ← CurlyBrackets
 
 ┌╶╶Test
   I₀ ← {}
@@ -90,66 +92,76 @@ Braces   ← Curly
   I₄ ← {"test" "three" "+1" "lines"}
   I₅ ← {"and" "finally" "test" "five" "lines"}
 
-  Round I₀
-  ⍤⤙≍ "()"
-  Round I₁
-  ⍤⤙≍ "(test one line)"
-  Round I₂
-  ⍤⤙≍ $ ⎛test two⎞
-      $ ⎝lines   ⎠
-  Round I₃
-  ⍤⤙≍ $ ⎛test ⎞
-      $ ⎜three⎟
-      $ ⎝lines⎠
-  Round I₄
-  ⍤⤙≍ $ ⎛test ⎞
-      $ ⎜three⎟
-      $ ⎜+1   ⎟
-      $ ⎝lines⎠
-  Round I₅
-  ⍤⤙≍ $ ⎛and    ⎞
-      $ ⎜finally⎟
-      $ ⎜test   ⎟
-      $ ⎜five   ⎟
-      $ ⎝lines  ⎠
+  RoundBrackets I₀
+  ⍤⤙≍ ["()"]
+  RoundBrackets I₁
+  ⍤⤙≍ ["(test one line)"]
+  RoundBrackets I₂
+  ⍤⤙≍ ["⎛test two⎞"
+       "⎝lines   ⎠"]
+  RoundBrackets I₃
+  ⍤⤙≍ ["⎛test ⎞"
+       "⎜three⎟"
+       "⎝lines⎠"]
+  RoundBrackets I₄
+  ⍤⤙≍ ["⎛test ⎞"
+       "⎜three⎟"
+       "⎜+1   ⎟"
+       "⎝lines⎠"]
+  RoundBrackets I₅
+  ⍤⤙≍ ["⎛and    ⎞"
+       "⎜finally⎟"
+       "⎜test   ⎟"
+       "⎜five   ⎟"
+       "⎝lines  ⎠"]
 
-  Square I₀
-  ⍤⤙≍ "[]"
-  Square I₁
-  ⍤⤙≍ "[test one line]"
-  Square I₂
-  ⍤⤙≍ $ ⎡test two⎤
-      $ ⎣lines   ⎦
-  Square I₃
-  ⍤⤙≍ $ ⎡test ⎤
-      $ ⎢three⎥
-      $ ⎣lines⎦
-  Square I₄
-  ⍤⤙≍ $ ⎡test ⎤
-      $ ⎢three⎥
-      $ ⎢+1   ⎥
-      $ ⎣lines⎦
+  SquareBrackets I₀
+  ⍤⤙≍ ["[]"]
+  SquareBrackets I₁
+  ⍤⤙≍ ["[test one line]"]
+  SquareBrackets I₂
+  ⍤⤙≍ ["⎡test two⎤"
+       "⎣lines   ⎦"]
+  SquareBrackets I₃
+  ⍤⤙≍ ["⎡test ⎤"
+       "⎢three⎥"
+       "⎣lines⎦"]
+  SquareBrackets I₄
+  ⍤⤙≍ ["⎡test ⎤"
+       "⎢three⎥"
+       "⎢+1   ⎥"
+       "⎣lines⎦"]
 
-  Curly I₀
-  ⍤⤙≍ "{}"
-  Curly I₁
-  ⍤⤙≍ "{test one line}"
-  Curly I₂
-  ⍤⤙≍ $ ⎰test two⎱
-      $ ⎱lines   ⎰
-  Curly I₃
-  ⍤⤙≍ $ ⎧test ⎫
-      $ ⎨three⎬
-      $ ⎩lines⎭
-  Curly I₄
-  ⍤⤙≍ $ ⎧test ⎫
-      $ ⎨three⎬
-      $ ⎪+1   ⎪
-      $ ⎩lines⎭
-  Curly I₅
-  ⍤⤙≍ $ ⎧and    ⎫
-      $ ⎪finally⎪
-      $ ⎨test   ⎬
-      $ ⎪five   ⎪
-      $ ⎩lines  ⎭
+  CurlyBrackets I₀
+  ⍤⤙≍ ["{}"]
+  CurlyBrackets I₁
+  ⍤⤙≍ ["{test one line}"]
+  CurlyBrackets I₂
+  ⍤⤙≍ ["⎰test two⎱"
+       "⎱lines   ⎰"]
+  CurlyBrackets I₃
+  ⍤⤙≍ ["⎧test ⎫"
+       "⎨three⎬"
+       "⎩lines⎭"]
+  CurlyBrackets I₄
+  ⍤⤙≍ ["⎧test ⎫"
+       "⎨three⎬"
+       "⎪+1   ⎪"
+       "⎩lines⎭"]
+  CurlyBrackets I₅
+  ⍤⤙≍ ["⎧and    ⎫"
+       "⎪finally⎪"
+       "⎨test   ⎬"
+       "⎪five   ⎪"
+       "⎩lines  ⎭"]
 └╶╶
+SquareBrackets {"three"}
+## ╭─            
+## ╷ "[three]"   
+##             ╯ 
+CurlyBrackets {"three" "lines" "here"}
+## ╭─            
+## ╷ "⎧three⎫"   
+##   "⎨lines⎬"   
+##   "⎩here ⎭"   
+##             ╯ 

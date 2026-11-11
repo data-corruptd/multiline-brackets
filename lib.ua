@@ -1,4 +1,13 @@
-Parens ← (
+# ```
+# Round {"first" "second" "third"}
+# # or
+# Parens {"first" "second" "third"}
+# # ⎛first ⎞\n
+# # ⎜second⎟\n
+# # ⎝third ⎠
+# ```
+# ? Lines
+Round ← (
   ⬚@ ≡°□ # pad lines
   ⊸⧻
   ⍣(⍩⋅"()" °0     # zero lines
@@ -14,7 +23,16 @@ Parens ← (
   )
 )
 
-Brackets ← (
+# ```
+# Square {"first" "second" "third"}
+# # or
+# Brackets {"first" "second" "third"}
+# # ⎡first ⎤\n
+# # ⎢second⎥\n
+# # ⎣third ⎦
+# ```
+# ? Lines
+Square ← (
   ⬚@ ≡°□ # pad lines
 
   ⍣(⍩⋅"[]" °0     # zero lines
@@ -28,7 +46,16 @@ Brackets ← (
   )⊸⧻
 )
 
-Braces ← (
+# ```
+# Curly {"first" "second" "third"}
+# # or
+# Braces {"first" "second" "third"}
+# # ⎧first ⎫\n
+# # ⎨second⎬\n
+# # ⎩third ⎭
+# ```
+# ? Curly
+Curly ← (
   ⬚@ ≡°□ # pad lines
 
   ⍣(⍩⋅"{}" °0     # zero lines
@@ -49,6 +76,12 @@ Braces ← (
   )⊸⧻
 )
 
+# Aliases
+
+Parens   ← Round
+Brackets ← Square
+Braces   ← Curly
+
 ┌╶╶Test
   I₀ ← {}
   I₁ ← {"test one line"}
@@ -57,63 +90,63 @@ Braces ← (
   I₄ ← {"test" "three" "+1" "lines"}
   I₅ ← {"and" "finally" "test" "five" "lines"}
 
-  Parens I₀
+  Round I₀
   ⍤⤙≍ "()"
-  Parens I₁
+  Round I₁
   ⍤⤙≍ "(test one line)"
-  Parens I₂
+  Round I₂
   ⍤⤙≍ $ ⎛test two⎞
       $ ⎝lines   ⎠
-  Parens I₃
+  Round I₃
   ⍤⤙≍ $ ⎛test ⎞
       $ ⎜three⎟
       $ ⎝lines⎠
-  Parens I₄
+  Round I₄
   ⍤⤙≍ $ ⎛test ⎞
       $ ⎜three⎟
       $ ⎜+1   ⎟
       $ ⎝lines⎠
-  Parens I₅
+  Round I₅
   ⍤⤙≍ $ ⎛and    ⎞
       $ ⎜finally⎟
       $ ⎜test   ⎟
       $ ⎜five   ⎟
       $ ⎝lines  ⎠
 
-  Brackets I₀
+  Square I₀
   ⍤⤙≍ "[]"
-  Brackets I₁
+  Square I₁
   ⍤⤙≍ "[test one line]"
-  Brackets I₂
+  Square I₂
   ⍤⤙≍ $ ⎡test two⎤
       $ ⎣lines   ⎦
-  Brackets I₃
+  Square I₃
   ⍤⤙≍ $ ⎡test ⎤
       $ ⎢three⎥
       $ ⎣lines⎦
-  Brackets I₄
+  Square I₄
   ⍤⤙≍ $ ⎡test ⎤
       $ ⎢three⎥
       $ ⎢+1   ⎥
       $ ⎣lines⎦
 
-  Braces I₀
+  Curly I₀
   ⍤⤙≍ "{}"
-  Braces I₁
+  Curly I₁
   ⍤⤙≍ "{test one line}"
-  Braces I₂
+  Curly I₂
   ⍤⤙≍ $ ⎰test two⎱
       $ ⎱lines   ⎰
-  Braces I₃
+  Curly I₃
   ⍤⤙≍ $ ⎧test ⎫
       $ ⎨three⎬
       $ ⎩lines⎭
-  Braces I₄
+  Curly I₄
   ⍤⤙≍ $ ⎧test ⎫
       $ ⎨three⎬
       $ ⎪+1   ⎪
       $ ⎩lines⎭
-  Braces I₅
+  Curly I₅
   ⍤⤙≍ $ ⎧and    ⎫
       $ ⎪finally⎪
       $ ⎨test   ⎬
